@@ -30,7 +30,8 @@
     </div>
 
     <div class="container mx-auto mt-8 p-4">
-    <form action="tambah_foto.php" method="post" enctype="multipart/form-data" class="mb-8 flex justify-center">
+    <button id="btnTambahfoto" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">Upload foto</button>
+    <form id="formTambahfoto" action="tambah_foto.php" method="post" enctype="multipart/form-data" class="mb-8" style="display: none;">
         <div class="max-w-md w-full bg-white rounded-lg shadow-md p-6">
             <table class="w-full">
                 <tr>
@@ -106,6 +107,12 @@
     <?php
         }
     ?>
+</div>
+<script>
+        document.getElementById("btnTambahfoto").addEventListener("click", function() {
+            document.getElementById("formTambahfoto").style.display = "block";
+        });
+    </script>
 </div>
 </body>
 </html>

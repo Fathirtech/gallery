@@ -72,7 +72,7 @@ if (isset($_GET['fotoid'])) {
 
                 <div class="flex items-center mb-4">
                     <input type="text" name="isikomentar" placeholder="Tambah komentar" class="border p-2 rounded-lg w-full">
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg ml-4">Tambah</button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg ml-4"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         <?php

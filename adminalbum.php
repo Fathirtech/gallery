@@ -30,7 +30,8 @@ if(!isset($_SESSION['userid'])){
     </div>
 
     <div class="container mx-auto mt-8 p-4">
-        <form action="tambah_album.php" method="post" class="mb-8">
+    <button id="btnTambahAlbum" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">Tambah Album</button>
+    <form id="formTambahAlbum" action="tambah_album.php" method="post" class="mb-8" style="display: none;">
             <table class="w-full">
                 <tr>
                     <td class="py-2">Nama Album</td>
@@ -71,7 +72,12 @@ if(!isset($_SESSION['userid'])){
     }
     ?>
 </div>
-
+<script>
+        document.getElementById("btnTambahAlbum").addEventListener("click", function() {
+            document.getElementById("formTambahAlbum").style.display = "block";
+        });
+    </script>
+</div>
     </div>
 </body>
 </html>
