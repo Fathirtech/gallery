@@ -109,10 +109,24 @@
     ?>
 </div>
 <script>
-        document.getElementById("btnTambahfoto").addEventListener("click", function() {
-            document.getElementById("formTambahfoto").style.display = "block";
-        });
-    </script>
-</div>
+    document.getElementById("btnTambahfoto").addEventListener("click", function() {
+        document.getElementById("formTambahfoto").style.display = "block";
+    });
+
+    document.getElementById("formTambahfoto").addEventListener("submit", function(event) {
+        // Mengambil nilai input dari form
+        var judulFoto = document.getElementsByName("judulfoto")[0].value;
+        var deskripsiFoto = document.getElementsByName("deskripsifoto")[0].value;
+        var lokasiFile = document.getElementsByName("lokasifile")[0].value;
+        
+        // Memeriksa apakah setiap input tidak kosong
+        if (judulFoto.trim() === '' || deskripsiFoto.trim() === '' || lokasiFile.trim() === '') {
+            // Mencegah formulir untuk dikirim
+            event.preventDefault();
+            // Menampilkan pesan kesalahan
+            alert("Semua kolom harus diisi!");
+        }
+    });
+</script>
 </body>
 </html>

@@ -36,20 +36,20 @@
             <table class="w-full">
                 <tr>
                     <td class="py-2">Judul</td>
-                    <td><input type="text" name="judulfoto" class="border p-2 rounded w-full focus:outline-none focus:ring focus:border-blue-300"></td>
+                    <td><input type="text" name="judulfoto" id="judulfoto" class="border p-2 rounded w-full focus:outline-none focus:ring focus:border-blue-300"></td>
                 </tr>
                 <tr>
                     <td class="py-2">Deskripsi</td>
-                    <td><input type="text" name="deskripsifoto" class="border p-2 rounded w-full focus:outline-none focus:ring focus:border-blue-300"></td>
+                    <td><input type="text" name="deskripsifoto" id="deskripsifoto" class="border p-2 rounded w-full focus:outline-none focus:ring focus:border-blue-300"></td>
                 </tr>
                 <tr>
                     <td class="py-2">Lokasi File</td>
-                    <td><input type="file" name="lokasifile" class="border p-2 rounded w-full focus:outline-none focus:ring focus:border-blue-300"></td>
+                    <td><input type="file" name="lokasifile" id="lokasifile" class="border p-2 rounded w-full focus:outline-none focus:ring focus:border-blue-300"></td>
                 </tr>
                 <tr>
                     <td class="py-2">Album</td>
                     <td>
-                        <select name="albumid" class="border p-2 rounded w-full focus:outline-none focus:ring focus:border-blue-300">
+                        <select name="albumid" id="albumid" class="border p-2 rounded w-full focus:outline-none focus:ring focus:border-blue-300">
                             <?php
                                 include "koneksi.php";
                                 $userid=$_SESSION['userid'];
@@ -109,10 +109,20 @@
     ?>
 </div>
 <script>
-        document.getElementById("btnTambahfoto").addEventListener("click", function() {
-            document.getElementById("formTambahfoto").style.display = "block";
-        });
-    </script>
-</div>
+    document.getElementById("btnTambahfoto").addEventListener("click", function() {
+        document.getElementById("formTambahfoto").style.display = "block";
+    });
+
+    document.getElementById("formTambahfoto").addEventListener("submit", function(event) {
+        var judulfoto = document.getElementById("judulfoto").value.trim();
+        var deskripsifoto = document.getElementById("deskripsifoto").value.trim();
+        var lokasifile = document.getElementById("lokasifile").value.trim();
+        
+        if (judulfoto === '' || deskripsifoto === '' || lokasifile === '') {
+            alert("Semua kolom harus diisi.");
+            event.preventDefault();
+        }
+    });
+</script>
 </body>
 </html>

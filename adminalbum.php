@@ -35,11 +35,11 @@ if(!isset($_SESSION['userid'])){
             <table class="w-full">
                 <tr>
                     <td class="py-2">Nama Album</td>
-                    <td><input type="text" name="namaalbum" class="border p-2 rounded"></td>
+                    <td><input type="text" name="namaalbum" id="namaalbum" class="border p-2 rounded"></td>
                 </tr>
                 <tr>
                     <td class="py-2">Deskripsi</td>
-                    <td><input type="text" name="deskripsi" class="border p-2 rounded"></td>
+                    <td><input type="text" name="deskripsi" id="deskripsi" class="border p-2 rounded"></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -75,6 +75,16 @@ if(!isset($_SESSION['userid'])){
 <script>
         document.getElementById("btnTambahAlbum").addEventListener("click", function() {
             document.getElementById("formTambahAlbum").style.display = "block";
+        });
+
+        document.getElementById("formTambahAlbum").addEventListener("submit", function(event) {
+            var namaalbum = document.getElementById("namaalbum").value.trim();
+            var deskripsi = document.getElementById("deskripsi").value.trim();
+            
+            if (namaalbum === '' || deskripsi === '') {
+                alert("Semua kolom harus diisi.");
+                event.preventDefault();
+            }
         });
     </script>
 </div>
