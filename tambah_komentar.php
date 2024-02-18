@@ -10,7 +10,7 @@
     $sql = mysqli_query($conn, "INSERT INTO komentarfoto (fotoid, userid, isikomentar, tanggalkomentar) VALUES ('$fotoid', '$userid', '$isikomentar', '$tanggalkomentar')");
 
     if ($sql) {
-        header("location:komentar.php?fotoid=".$fotoid);
+        header("location:detail.php?fotoid=".$fotoid);
     } else {
         echo "Error: " . mysqli_error($conn);
     }

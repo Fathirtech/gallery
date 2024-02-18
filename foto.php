@@ -83,7 +83,9 @@
             <!-- Container untuk gambar -->
             <div class="relative" style="padding-bottom: 56.25%;">
                 <!-- Padding bottom 56.25% untuk membuat rasio 16:9 -->
+                <a href="detail.php?fotoid=<?= $data['fotoid'] ?>">
                 <img src="gambar/<?=$data['lokasifile']?>" alt="<?=$data['judulfoto']?>" class="absolute inset-0 w-full h-full object-cover rounded-md">
+                </a>
             </div>
             <!-- Container untuk teks -->
             <div class="p-4">

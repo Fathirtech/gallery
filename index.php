@@ -63,7 +63,14 @@
                 <!-- Container untuk gambar -->
                 <div class="relative" style="padding-bottom: 56.25%;">
                     <!-- Padding bottom 56.25% untuk membuat rasio 16:9 -->
+                    <?php if ( isset($_SESSION['userid']) ) { ?>
+                    <a href="detail.php?fotoid=<?= $data['fotoid'] ?>">
                     <img src="gambar/<?= $data['lokasifile'] ?>" alt="<?= $data['judulfoto'] ?>" class="absolute inset-0 w-full h-full object-cover rounded-md">
+                    </a>
+                    <?php } else { ?>
+                    <img src="gambar/<?= $data['lokasifile'] ?>" alt="<?= $data['judulfoto'] ?>" class="absolute inset-0 w-full h-full object-cover rounded-md">
+                    <?php } ?>
+
                 </div>
                 <!-- Container untuk teks -->
                 <div class="p-4">
@@ -86,7 +93,7 @@
                             $heart_icon_color = $liked ? "text-red-500" : "text-gray-500";
                         ?>
                             <a href="like.php?fotoid=<?= $data['fotoid'] ?>" class="<?= $heart_icon_color ?> hover:underline"><i class="fa <?= $heart_icon_class ?>"></i></a>
-                            <a href="komentar.php?fotoid=<?= $data['fotoid'] ?>" class="text-blue-500 hover:underline"><i class="fa-regular fa-comment"></i></a>
+                            
                         <?php
                         } // End of if(isset($_SESSION['userid']))
                         ?>

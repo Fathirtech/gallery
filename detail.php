@@ -39,7 +39,7 @@ if (isset($_GET['fotoid'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Komentar</title>
+    <title>Halaman Detail</title>
     <link rel="stylesheet" href="./css/all.min.css">
     <link rel="stylesheet" href="./css/fontawesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
@@ -47,7 +47,7 @@ if (isset($_GET['fotoid'])) {
 
 <body class="font-sans bg-gray-100">
     <div class="bg-white p-4">
-        <h1 class="text-3xl text-center text-gray-800">Halaman Komentar</h1>
+        <h1 class="text-3xl text-center text-gray-800">Halaman Detail</h1>
         <p class="text-center mt-2">Selamat datang <b><?=$_SESSION['namalengkap']?></b></p>
 
         <ul class="flex items-center justify-center mt-4">
@@ -69,7 +69,7 @@ if (isset($_GET['fotoid'])) {
                 <img src="gambar/<?=$data['lokasifile']?>" width="100%" class="mb-4 rounded-lg">
                 <h2 class="text-xl font-semibold mb-4"><?=$data['judulfoto']?></h2>
                 <p class="mb-4"><?=$data['deskripsifoto']?></p>
-
+                
                 <div class="flex items-center mb-4">
                     <input type="text" name="isikomentar" placeholder="Tambah komentar" class="border p-2 rounded-lg w-full">
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg ml-4"><i class="fa-solid fa-paper-plane"></i></button>

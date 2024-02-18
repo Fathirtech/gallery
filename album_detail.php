@@ -19,31 +19,6 @@ if (isset($_GET['albumid'])) {
     <link rel="stylesheet" href="./css/all.min.css">
     <link rel="stylesheet" href="./css/fontawesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        /* Additional CSS styles for full-size image display */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 9999;
-        }
-
-        .overlay-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        .full-size-img {
-            max-width: 90%;
-            max-height: 90%;
-        }
-    </style>
 </head>
 
 <body class="font-sans bg-gray-100">
@@ -77,15 +52,21 @@ if (isset($_GET['albumid'])) {
         <?php
         include "koneksi.php";
         $userid = $_SESSION['userid'];
-        $sql = mysqli_query($conn, "select * from foto,album where foto.userid='$userid' and foto.albumid=album.albumid");
+        $idAlbum = $_GET["albumid"];
+        $sql = mysqli_query($conn, "SELECT foto.*, album.namaalbum FROM foto INNER JOIN album ON foto.albumid = album.albumid WHERE foto.userid='$userid' AND foto.albumid='$idAlbum'");
         while ($data = mysqli_fetch_array($sql)) {
         ?>
             <div class="bg-white border rounded-md overflow-hidden shadow-md transform transition-transform ease-in-out hover:scale-105 relative">
                 <!-- Container untuk gambar -->
                 <div class="relative" style="padding-bottom: 56.25%;">
                     <!-- Padding bottom 56.25% untuk membuat rasio 16:9 -->
-                    <img src="gambar/<?= $data['lokasifile'] ?>" alt="<?= $data['judulfoto'] ?>" class="absolute inset-0 w-full h-full object-cover rounded-md"
-                        onclick="openFullSizeImage('gambar/<?= $data['lokasifile'] ?>', '<?= $data['judulfoto'] ?>')">
+                    <?php
+        // Tentukan URL berdasarkan peran pengguna
+        $commentPage = ($_SESSION['role'] === 'admin') ? 'admindetail.php' : 'detail.php';
+    ?>
+    <a href="<?= $commentPage ?>?fotoid=<?= $data['fotoid'] ?>">
+        <img src="gambar/<?= $data['lokasifile'] ?>" alt="<?= $data['judulfoto'] ?>" class="absolute inset-0 w-full h-full object-cover rounded-md">
+    </a>
                 </div>
                 <!-- Container untuk teks -->
                 <div class="p-4">
@@ -96,7 +77,7 @@ if (isset($_GET['albumid'])) {
                     <p class="text-sm text-gray-700 mb-2">Disukai:
                         <?php
                         $fotoid = $data['fotoid'];
-                        $sql2 = mysqli_query($conn, "select * from likefoto where fotoid='$fotoid'");
+                        $sql2 = mysqli_query($conn, "SELECT * FROM likefoto WHERE fotoid='$fotoid'");
                         echo mysqli_num_rows($sql2);
                         ?>
                     </p>
@@ -111,27 +92,6 @@ if (isset($_GET['albumid'])) {
         ?>
     </div>
 
-    <!-- Full-size image overlay -->
-    <div class="overlay" id="overlay" onclick="closeFullSizeImage()">
-        <div class="overlay-content">
-            <img src="" alt="" id="fullSizeImage" class="full-size-img">
-        </div>
-    </div>
-
-    <script>
-        function openFullSizeImage(imageUrl, altText) {
-            // Set the src and alt attributes of the full-size image
-            document.getElementById("fullSizeImage").src = imageUrl;
-            document.getElementById("fullSizeImage").alt = altText;
-            // Show the overlay
-            document.getElementById("overlay").style.display = "block";
-        }
-
-        function closeFullSizeImage() {
-            // Hide the overlay
-            document.getElementById("overlay").style.display = "none";
-        }
-    </script>
 </body>
 
 </html>
