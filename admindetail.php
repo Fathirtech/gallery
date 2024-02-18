@@ -90,14 +90,14 @@ if (isset($_GET['fotoid'])) {
             ?>
                 <div class="flex items-start py-4">
                     <div class="flex-shrink-0">
-                        <img src="https://via.placeholder.com/40" alt="Avatar" class="w-10 h-10 rounded-full">
+                        <img src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png" alt="Avatar" class="w-10 h-10 rounded-full">
                     </div>
                     <div class="ml-4">
                         <p class="font-semibold"><?=$data['namalengkap']?></p>
                         <p class="text-sm text-gray-400"><?=$data['tanggalkomentar']?></p>
                         <p class="text-gray-600">
                             <?=$data['isikomentar']?><?php if($data['userid'] === $_SESSION['userid']): ?>
-                            <a href="?fotoid=<?=$fotoid?>&hapus=true&komentarid=<?=$data['komentarid']?>" class="text-red-500 hover:underline"><i class="fa-solid fa-trash"></i></a>
+                            <a href="?fotoid=<?=$fotoid?>&hapus=true&komentarid=<?=$data['komentarid']?>" class="text-red-500 hover:underline"><i class="fa-solid fa-eraser"></i></a>
                         <?php endif; ?>
                     </p>
                     </div>
