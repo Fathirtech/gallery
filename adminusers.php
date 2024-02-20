@@ -12,18 +12,13 @@
 
 <body class="font-sans bg-gray-100">
     <div class="bg-white p-4">
-        <h1 class="text-3xl text-center text-gray-800">View Users</h1>
         <?php
         session_start();
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
         ?>
-            <ul class="flex items-center justify-center mt-4">
-                <li class="mr-4"><a href="adminhome.php" class="text-blue-500 hover:underline">Home</a></li>
-                <li class="mr-4"><a href="adminalbum.php" class="text-blue-500 hover:underline">Album</a></li>
-                <li class="mr-4"><a href="adminfoto.php" class="text-blue-500 hover:underline">Foto</a></li>
-                <li class="mr-4"><a href="#" class="text-blue-500 hover:underline">Users</a></li>
-                <li><a href="logout.php" class="text-red-500 hover:underline">Logout</a></li>
-            </ul>
+            <?php include 'adminnavbar.php'; ?>
+            <h1 class="text-3xl text-center text-gray-800">Halaman User</h1>
+            <p class="text-center mt-2">Selamat datang <b><?=$_SESSION['namalengkap']?></b></p>
         <?php
         } else {
             header("Location: index.php"); // Redirect if not an admin

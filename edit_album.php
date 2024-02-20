@@ -15,15 +15,24 @@
 </head>
 <body class="font-sans bg-gray-100">
     <div class="bg-white p-4">
+    <ul class="flex items-center justify-center mt-4">
+            <?php
+            // Check user role to determine the redirection link
+            if ($_SESSION['role'] === 'admin') {
+                ?>
+                <?php include 'adminnavbar.php'; ?>
+                <?php
+            } else {
+                ?>
+                <?php
+                include 'navbar.php';
+                ?>
+                <?php
+            }
+            ?>
+        </ul>
         <h1 class="text-3xl text-center text-gray-800">Halaman Edit Album</h1>
         <p class="text-center mt-2">Selamat datang <b><?=$_SESSION['namalengkap']?></b></p>
-        
-        <ul class="flex items-center justify-center mt-4">
-            <li class="mr-4"><a href="index.php" class="text-blue-500 hover:underline">Home</a></li>
-            <li class="mr-4"><a href="album.php" class="text-blue-500 hover:underline">Album</a></li>
-            <li class="mr-4"><a href="foto.php" class="text-blue-500 hover:underline">Foto</a></li>
-            <li><a href="logout.php" class="text-red-500 hover:underline">Logout</a></li>
-        </ul>
     </div>
 
     <form action="update_album.php" method="post" class="container mx-auto mt-8 p-4 flex justify-center">

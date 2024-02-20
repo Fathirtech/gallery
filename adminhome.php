@@ -16,7 +16,6 @@
 
 <body class="font-sans bg-gray-100">
     <div class="bg-white p-4">
-        <h1 class="text-3xl text-center text-gray-800">Selamat Datang di Gallery</h1>
         <?php
         session_start();
         if (!isset($_SESSION['userid'])) {
@@ -30,16 +29,11 @@
             <?php
         } else {
             ?>
+            <?php include 'adminnavbar.php'; ?>
+            <h1 class="text-3xl text-center text-gray-800">Selamat Datang di Gallery</h1>
             <p class="text-center mt-4">Selamat datang <b>
                     <?= $_SESSION['namalengkap'] ?>
                 </b></p>
-            <ul class="flex items-center justify-center mt-4">
-                <li class="mr-4"><a href="#" class="text-blue-500 hover:underline">Home</a></li>
-                <li class="mr-4"><a href="adminalbum.php" class="text-blue-500 hover:underline">Album</a></li>
-                <li class="mr-4"><a href="adminfoto.php" class="text-blue-500 hover:underline">Foto</a></li>
-                <li class="mr-4"><a href="adminusers.php" class="text-blue-500 hover:underline">Users</a></li>
-                <li><a href="logout.php" class="text-red-500 hover:underline">Logout</a></li>
-            </ul>
             <?php
         }
         ?>
@@ -70,7 +64,7 @@
             <div
                 class="bg-white border rounded-md overflow-hidden shadow-md transform transition-transform ease-in-out hover:scale-105 relative">
                 <div class="relative" style="padding-bottom: 56.25%;">
-                    <a href="admindetail.php?fotoid=<?= $data['fotoid'] ?>">
+                    <a href="detail.php?fotoid=<?= $data['fotoid'] ?>">
                         <img src="gambar/<?= $data['lokasifile'] ?>" alt="<?= $data['judulfoto'] ?>"
                             class="absolute inset-0 w-full h-full object-cover rounded-md">
                     </a>
@@ -100,8 +94,6 @@
                         ?>
                         <a href="adminlike.php?fotoid=<?= $data['fotoid'] ?>"
                             class="<?= $heart_icon_color ?> hover:underline"><i class="fa <?= $heart_icon_class ?>"></i></a>
-                        <a href="admindetail.php?fotoid=<?= $data['fotoid'] ?>" class="text-blue-500 hover:underline"><i
-                                class="fa-regular fa-comment"></i></a>
                     </div>
                 </div>
             </div>

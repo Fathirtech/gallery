@@ -23,29 +23,24 @@ if (isset($_GET['albumid'])) {
 
 <body class="font-sans bg-gray-100">
     <div class="bg-white p-4">
-        <h1 class="text-3xl text-center text-gray-800">Album Detail</h1>
-        <p class="text-center mt-2">Selamat datang <b><?= $_SESSION['namalengkap'] ?></b></p>
-
-        <ul class="flex items-center justify-center mt-4">
+    <ul class="flex items-center justify-center mt-4">
             <?php
             // Check user role to determine the redirection link
             if ($_SESSION['role'] === 'admin') {
-            ?>
-                <li class="mr-4"><a href="adminhome.php" class="text-blue-500 hover:underline">Home</a></li>
-                <li class="mr-4"><a href="adminalbum.php" class="text-blue-500 hover:underline">Album</a></li>
-                <li class="mr-4"><a href="adminfoto.php" class="text-blue-500 hover:underline">Foto</a></li>
-                <li class="mr-4"><a href="adminusers.php" class="text-blue-500 hover:underline">Users</a></li>
-            <?php
+                ?>
+                <?php include 'adminnavbar.php'; ?>
+                <?php
             } else {
-            ?>
-                <li class="mr-4"><a href="index.php" class="text-blue-500 hover:underline">Home</a></li>
-                <li class="mr-4"><a href="album.php" class="text-blue-500 hover:underline">Album</a></li>
-                <li class="mr-4"><a href="foto.php" class="text-blue-500 hover:underline">Foto</a></li>
-            <?php
+                ?>
+                <?php
+                include 'navbar.php';
+                ?>
+                <?php
             }
             ?>
-            <li><a href="logout.php" class="text-red-500 hover:underline">Logout</a></li>
         </ul>
+        <h1 class="text-3xl text-center text-gray-800">Album Detail</h1>
+        <p class="text-center mt-2">Selamat datang <b><?= $_SESSION['namalengkap'] ?></b></p>
     </div>
 
     <div class="container mx-auto mt-8 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -62,7 +57,7 @@ if (isset($_GET['albumid'])) {
                     <!-- Padding bottom 56.25% untuk membuat rasio 16:9 -->
                     <?php
         // Tentukan URL berdasarkan peran pengguna
-        $commentPage = ($_SESSION['role'] === 'admin') ? 'admindetail.php' : 'detail.php';
+        $commentPage = ($_SESSION['role'] === 'admin') ? 'detail.php' : 'detail.php';
     ?>
     <a href="<?= $commentPage ?>?fotoid=<?= $data['fotoid'] ?>">
         <img src="gambar/<?= $data['lokasifile'] ?>" alt="<?= $data['judulfoto'] ?>" class="absolute inset-0 w-full h-full object-cover rounded-md">
