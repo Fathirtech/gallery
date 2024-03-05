@@ -1,3 +1,38 @@
+<?php
+session_start();
+include "koneksi.php";
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Query untuk menghitung jumlah total hasil pencarian
+$total_results_query = mysqli_query($conn, "SELECT COUNT(*) as total FROM foto, user WHERE foto.userid=user.userid AND judulfoto LIKE '%$search%'");
+$total_results_row = mysqli_fetch_assoc($total_results_query);
+$total_results = $total_results_row['total'];
+
+// Jumlah item per halaman
+$items_per_page = 12;
+
+// Menghitung jumlah halaman
+$total_pages = ceil($total_results / $items_per_page);
+
+// Mendapatkan halaman saat ini
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Mendapatkan offset (mulai dari mana data ditampilkan)
+$offset = ($current_page - 1) * $items_per_page;
+
+// Query untuk mendapatkan data foto sesuai dengan halaman saat ini, diurutkan berdasarkan tanggal_upload secara descending
+$sql = mysqli_query($conn, "SELECT * FROM foto, user WHERE foto.userid=user.userid AND judulfoto LIKE '%$search%' ORDER BY tanggalunggah DESC LIMIT $items_per_page OFFSET $offset");
+function getUserProfile($conn, $userid)
+{
+    $query = mysqli_query($conn, "SELECT * FROM user WHERE userid = $userid");
+    return mysqli_fetch_assoc($query);
+}
+
+$user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) : null;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,25 +47,51 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-KyZXEAg3QhqLMpG8r+Knujsl5+z0I5t9zwnlOP6a7tRO0pgdeU4jre0o9W6cd9c3i8a7b/Dmm7vcubGcRtIUUQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .like-button {
+            position: absolute;
+            top: -9999px;
+            right: -9999px;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .like-button.show {
+            top: 10px;
+            right: 10px;
+        }
+
+        .like-button:hover {
+            transform: scale(1.2);
+        }
+
+        .like-icon {
+            font-size: 1.5rem;
+        }
+    </style>
 </head>
 
 <body class="font-sans bg-gray-100">
     <div class="bg-white p-4">
         <?php
-        session_start();
         if (!isset($_SESSION['userid'])) {
             ?>
+            <h1 class="text-3xl text-center text-gray-800">Selamat Datang di MY Gallery</h1>
             <div class="flex justify-center mt-4">
                 <ul class="flex items-center">
-                    <li class="mr-4"><a href="register.php" class="text-blue-500 hover:underline">Register</a></li>
-                    <li><a href="login.php" class="text-blue-500 hover:underline">Login</a></li>
+                    <li class="mr-4"><a href="register.php"
+                            class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">Register</a>
+                    </li>
+                    <li><a href="login.php"
+                            class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">Login</a>
+                    </li>
                 </ul>
             </div>
             <?php
         } else {
             ?>
             <?php include 'adminnavbar.php'; ?>
-            <h1 class="text-3xl text-center text-gray-800">Selamat Datang di Gallery</h1>
+            <h1 class="text-3xl text-center text-gray-800">Selamat Datang di MY Gallery</h1>
             <p class="text-center mt-4">Selamat datang <b>
                     <?= $_SESSION['namalengkap'] ?>
                 </b></p>
@@ -53,23 +114,33 @@
 
     <div class="container mx-auto mt-8 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <?php
-        include "koneksi.php";
-
-        $search = isset($_GET['search']) ? $_GET['search'] : '';
-        $sql = mysqli_query($conn, "SELECT * FROM foto, user WHERE foto.userid=user.userid AND judulfoto LIKE '%$search%'");
-
         while ($data = mysqli_fetch_array($sql)) {
             ?>
-
             <div
-                class="bg-white border rounded-md overflow-hidden shadow-md transform transition-transform ease-in-out hover:scale-105 relative">
+                class="relative bg-white border rounded-md overflow-hidden shadow-md transform transition-transform ease-in-out hover:scale-105">
+                <!-- Container for image -->
                 <div class="relative" style="padding-bottom: 56.25%;">
+                    <!-- Padding bottom 56.25% for 16:9 ratio -->
                     <a href="detail.php?fotoid=<?= $data['fotoid'] ?>">
                         <img src="gambar/<?= $data['lokasifile'] ?>" alt="<?= $data['judulfoto'] ?>"
                             class="absolute inset-0 w-full h-full object-cover rounded-md">
                     </a>
-
+                    <!-- Like button -->
+                    <div class="like-button">
+                        <?php
+                        if (isset($_SESSION['userid'])) {
+                            $sql_check_like = mysqli_query($conn, "SELECT * FROM likefoto WHERE fotoid='{$data['fotoid']}' AND userid='{$_SESSION['userid']}'");
+                            $liked = mysqli_num_rows($sql_check_like) > 0;
+                            $heart_icon_class = $liked ? "fa-solid fa-heart text-red-500" : "fa-regular fa-heart text-gray-500";
+                            ?>
+                            <a href="adminlike.php?fotoid=<?= $data['fotoid'] ?>" class="like-icon"><i
+                                    class="fa <?= $heart_icon_class ?>"></i></a>
+                            <?php
+                        }
+                        ?>
+                    </div>
                 </div>
+                <!-- Container for text -->
                 <div class="p-4">
                     <div class="text-lg font-bold mb-2">
                         <?= $data['judulfoto'] ?>
@@ -81,19 +152,9 @@
                         <span>
                             <?= $data['namalengkap'] ?>
                         </span>
-                        <span>Like
+                        <span>like
                             <?php echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM likefoto WHERE fotoid={$data['fotoid']}")); ?>
                         </span>
-                    </div>
-                    <div class="flex justify-between items-center mt-2">
-                        <?php
-                        $sql_check_like = mysqli_query($conn, "SELECT * FROM likefoto WHERE fotoid='{$data['fotoid']}' AND userid='{$_SESSION['userid']}'");
-                        $liked = mysqli_num_rows($sql_check_like) > 0;
-                        $heart_icon_class = $liked ? "fa-solid fa-heart" : "fa-regular fa-heart";
-                        $heart_icon_color = $liked ? "text-red-500" : "text-gray-500";
-                        ?>
-                        <a href="adminlike.php?fotoid=<?= $data['fotoid'] ?>"
-                            class="<?= $heart_icon_color ?> hover:underline"><i class="fa <?= $heart_icon_class ?>"></i></a>
                     </div>
                 </div>
             </div>
@@ -101,6 +162,40 @@
         }
         ?>
     </div>
+
+    <!-- Pagination -->
+    <div class="container mx-auto mt-8 p-4">
+        <ul class="flex justify-center space-x-4">
+            <?php
+            // Generate pagination links
+            for ($page = 1; $page <= $total_pages; $page++) {
+                echo '<li><a href="?search=' . $search . '&page=' . $page . '" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">' . $page . '</a></li>';
+            }
+            ?>
+        </ul>
+    </div>
+
+    <footer class="bg-gray-800 text-white p-4 text-center">
+        <p>&copy; 2024 MY Gallery. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const photoContainers = document.querySelectorAll(".relative");
+
+            photoContainers.forEach(container => {
+                container.addEventListener("mouseover", function () {
+                    const likeButton = container.querySelector(".like-button");
+                    likeButton.classList.add("show");
+                });
+
+                container.addEventListener("mouseleave", function () {
+                    const likeButton = container.querySelector(".like-button");
+                    likeButton.classList.remove("show");
+                });
+            });
+        });
+    </script>
 
 </body>
 

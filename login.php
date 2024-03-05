@@ -26,8 +26,9 @@
                     <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
                     <input type="password" name="password" id="password" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
                 </div>
-                <div class="flex items-center justify-center">
+                <div class="flex items-center justify-between mb-4">
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Login</button>
+                    <a href="requestOTP.php" class="text-blue-500 hover:underline">Lupa Password?</a>
                 </div>
             </form>
         </div>

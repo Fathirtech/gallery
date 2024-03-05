@@ -1,8 +1,20 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['userid'])){
-        header("location:login.php");
-    }
+
+include "./koneksi.php";
+
+session_start();
+if(!isset($_SESSION['userid'])){
+    header("location:login.php");
+}
+
+function getUserProfile($conn, $userid)
+{
+    $query = mysqli_query($conn, "SELECT * FROM user WHERE userid = $userid");
+    return mysqli_fetch_assoc($query);
+}
+
+$user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) : null;
+
 ?>
 
 <!DOCTYPE html>

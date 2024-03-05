@@ -8,10 +8,17 @@ if (!isset($_SESSION['userid'])) {
 
 if (isset($_GET['albumid'])) {
     $albumid = $_GET['albumid'];
+    function getUserProfile($conn, $userid)
+{
+    $query = mysqli_query($conn, "SELECT * FROM user WHERE userid = $userid");
+    return mysqli_fetch_assoc($query);
+}
+
+$user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) : null;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +55,7 @@ if (isset($_GET['albumid'])) {
         include "koneksi.php";
         $userid = $_SESSION['userid'];
         $idAlbum = $_GET["albumid"];
-        $sql = mysqli_query($conn, "SELECT foto.*, album.namaalbum FROM foto INNER JOIN album ON foto.albumid = album.albumid WHERE foto.userid='$userid' AND foto.albumid='$idAlbum'");
+        $sql = mysqli_query($conn, "SELECT foto.*, album.namaalbum FROM foto INNER JOIN album ON foto.albumid = album.albumid WHERE foto.userid='$userid' AND foto.albumid='$idAlbum' ORDER BY foto.tanggalunggah DESC");
         while ($data = mysqli_fetch_array($sql)) {
         ?>
             <div class="bg-white border rounded-md overflow-hidden shadow-md transform transition-transform ease-in-out hover:scale-105 relative">

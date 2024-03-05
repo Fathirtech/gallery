@@ -1,6 +1,20 @@
+<?php
+include "./koneksi.php";
+session_start();
+if (!isset($_SESSION['userid'])) {
+    header("location:login.php");
+}
+function getUserProfile($conn, $userid)
+{
+    $query = mysqli_query($conn, "SELECT * FROM user WHERE userid = $userid");
+    return mysqli_fetch_assoc($query);
+}
+
+$user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) : null;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,21 +26,24 @@
 
 <body class="font-sans bg-gray-100">
     <div class="bg-white p-4">
-        <?php
-        session_start();
-        if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
-        ?>
-            <?php include 'adminnavbar.php'; ?>
-            <h1 class="text-3xl text-center text-gray-800">Halaman User</h1>
-            <p class="text-center mt-2">Selamat datang <b><?=$_SESSION['namalengkap']?></b></p>
-        <?php
-        } else {
-            header("Location: index.php"); // Redirect if not an admin
-            exit();
-        }
-        ?>
+            <?php
+            // Check user role to determine the redirection link
+            if ($_SESSION['role'] === 'admin') {
+                ?>
+                <?php include 'adminnavbar.php'; ?>
+                <?php
+            } else {
+                ?>
+                <?php
+                include 'navbar.php';
+                ?>
+                <?php
+            }
+            ?>
+        </ul>
+        <h1 class="text-3xl text-center text-gray-800">Halaman User</h1>
+        <p class="text-center mt-2">Selamat datang <b><?= $_SESSION['namalengkap'] ?></b></p>
     </div>
-
     <div class="container mx-auto mt-8 p-4">
         <!-- Search Form -->
         <form action="" method="get" class="mb-4">

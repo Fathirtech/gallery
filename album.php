@@ -1,8 +1,17 @@
 <?php
+include "./koneksi.php";
     session_start();
     if(!isset($_SESSION['userid'])){
         header("location:login.php");
     }
+    function getUserProfile($conn, $userid)
+{
+    $query = mysqli_query($conn, "SELECT * FROM user WHERE userid = $userid");
+    return mysqli_fetch_assoc($query);
+}
+
+$user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) : null;
+
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +65,7 @@
                     <p class="text-xs text-gray-500">Tanggal dibuat: <?= $data['tanggaldibuat'] ?></p>
                 </a>
                 <div class="mt-4 flex justify-between">
-                    <a href="hapus_album.php?albumid=<?= $data['albumid'] ?>" class="text-red-500 hover:underline"><i class="fa-solid fa-trash"></i></a>
+                <a href="hapus_album.php?albumid=<?= $data['albumid'] ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus album ini?');" class="text-red-500 hover:underline"><i class="fa-solid fa-trash"></i></a>
                     <a href="edit_album.php?albumid=<?= $data['albumid'] ?>" class="text-blue-500 hover:underline"><i class="fa-solid fa-pen-to-square"></i></a>
                 </div>
             </div>

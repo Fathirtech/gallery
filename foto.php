@@ -1,8 +1,20 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['userid'])){
-        header("location:login.php");
-    }
+
+include "./koneksi.php";
+
+session_start();
+if(!isset($_SESSION['userid'])){
+    header("location:login.php");
+}
+
+function getUserProfile($conn, $userid)
+{
+    $query = mysqli_query($conn, "SELECT * FROM user WHERE userid = $userid");
+    return mysqli_fetch_assoc($query);
+}
+
+$user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) : null;
+
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +83,7 @@
     <?php
         include "koneksi.php";
         $userid=$_SESSION['userid'];
-        $sql=mysqli_query($conn,"select * from foto,album where foto.userid='$userid' and foto.albumid=album.albumid");
+        $sql=mysqli_query($conn,"SELECT * FROM foto,album WHERE foto.userid='$userid' AND foto.albumid=album.albumid ORDER BY foto.tanggalunggah DESC");
         while($data=mysqli_fetch_array($sql)){
     ?>
         <div class="bg-white border rounded-md overflow-hidden shadow-md transform transition-transform ease-in-out hover:scale-105 relative">
@@ -91,12 +103,12 @@
                 <p class="text-sm text-gray-700 mb-2">Disukai: 
                     <?php
                         $fotoid=$data['fotoid'];
-                        $sql2=mysqli_query($conn,"select * from likefoto where fotoid='$fotoid'");
+                        $sql2=mysqli_query($conn,"SELECT * FROM likefoto WHERE fotoid='$fotoid'");
                         echo mysqli_num_rows($sql2);
                     ?>
                 </p>
                 <div class="flex justify-between items-center mt-4">
-                    <a href="hapus_foto.php?fotoid=<?=$data['fotoid']?>" class="text-red-500 hover:underline"><i class="fa-solid fa-trash"></i></a>
+                <a href="hapus_foto.php?fotoid=<?= $data['fotoid'] ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus foto ini?');" class="text-red-500 hover:underline"><i class="fa-solid fa-trash"></i></a>
                     <a href="edit_foto.php?fotoid=<?=$data['fotoid']?>" class="text-blue-500 hover:underline"><i class="fa-solid fa-pen-to-square"></i></a>
                 </div>
             </div>
