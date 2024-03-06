@@ -24,14 +24,15 @@
                     <?php endif; ?>
                 </button>
                 <div x-show="openDropdown" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-10">
-                    <?php if(isset($_SESSION['userid'])): ?>
-                        <a href="profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">My Profile</a>
-                        <a href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?');" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">Logout</a>
-                    <?php else: ?>
-                        <a href="login.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">Login</a>
-                    <?php endif; ?>
-                </div>
-            </div>
+    <?php if(isset($_SESSION['userid'])): ?>
+        <a href="profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">My Profile</a>
+        <a href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?');" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">Logout</a>
+    <?php else: ?>
+        <a href="login.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">Login</a>
+        <a href="register.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200">Register</a> <!-- Tambahkan tombol Register -->
+    <?php endif; ?>
+</div>
+
     </nav>
   </div>
 </div>

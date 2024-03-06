@@ -5,7 +5,10 @@ include "koneksi.php";
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Query untuk menghitung jumlah total hasil pencarian
-$total_results_query = mysqli_query($conn, "SELECT COUNT(*) as total FROM foto, user WHERE foto.userid=user.userid AND judulfoto LIKE '%$search%'");
+$total_results_query = mysqli_query($conn, "SELECT COUNT(*) as total FROM foto 
+    INNER JOIN user ON foto.userid=user.userid 
+    INNER JOIN album ON foto.albumid=album.albumid
+    WHERE foto.judulfoto LIKE '%$search%' AND album.acceslevel = 'public'");
 $total_results_row = mysqli_fetch_assoc($total_results_query);
 $total_results = $total_results_row['total'];
 
@@ -22,7 +25,12 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($current_page - 1) * $items_per_page;
 
 // Query untuk mendapatkan data foto sesuai dengan halaman saat ini, diurutkan berdasarkan tanggal_upload secara descending
-$sql = mysqli_query($conn, "SELECT * FROM foto, user WHERE foto.userid=user.userid AND judulfoto LIKE '%$search%' ORDER BY tanggalunggah DESC LIMIT $items_per_page OFFSET $offset");
+$sql = mysqli_query($conn, "SELECT foto.*, user.namalengkap FROM foto 
+    INNER JOIN user ON foto.userid=user.userid 
+    INNER JOIN album ON foto.albumid=album.albumid
+    WHERE foto.judulfoto LIKE '%$search%' AND album.acceslevel = 'public'
+    ORDER BY foto.tanggalunggah DESC LIMIT $items_per_page OFFSET $offset");
+
 function getUserProfile($conn, $userid)
 {
     $query = mysqli_query($conn, "SELECT * FROM user WHERE userid = $userid");

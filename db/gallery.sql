@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Mar 05, 2024 at 11:01 AM
--- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- Host: 127.0.0.1
+-- Generation Time: Mar 06, 2024 at 10:10 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,25 +28,26 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `album` (
-  `albumid` int NOT NULL,
-  `namaalbum` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `deskripsi` text COLLATE utf8mb4_general_ci NOT NULL,
+  `albumid` int(11) NOT NULL,
+  `namaalbum` varchar(255) NOT NULL,
+  `deskripsi` text NOT NULL,
   `tanggaldibuat` date NOT NULL,
-  `userid` int NOT NULL
+  `userid` int(11) NOT NULL,
+  `acceslevel` enum('private','public') NOT NULL DEFAULT 'private'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `album`
 --
 
-INSERT INTO `album` (`albumid`, `namaalbum`, `deskripsi`, `tanggaldibuat`, `userid`) VALUES
-(6, 'game', 'foto game game', '2024-01-27', 2),
-(7, 'game', 'mantap', '2024-01-29', 3),
-(10, 'random', 'foto random ', '2024-01-31', 3),
-(25, 'admin', 'album admin', '2024-02-07', 1),
-(31, 'foto ', 'saya', '2024-02-09', 4),
-(53, 'albumku', 'fotoku', '2024-02-20', 6),
-(56, 'dian', 'album dian', '2024-02-28', 4);
+INSERT INTO `album` (`albumid`, `namaalbum`, `deskripsi`, `tanggaldibuat`, `userid`, `acceslevel`) VALUES
+(6, 'game', 'foto game game', '2024-01-27', 2, 'public'),
+(7, 'game', 'mantap', '2024-01-29', 3, 'public'),
+(10, 'random', 'foto random ', '2024-01-31', 3, 'public'),
+(25, 'admin', 'album admin', '2024-02-07', 1, 'public'),
+(31, 'foto ', 'saya', '2024-02-09', 4, 'public'),
+(53, 'albumku', 'fotoku', '2024-02-20', 6, 'public'),
+(56, 'dian', 'album dian', '2024-02-28', 4, 'public');
 
 -- --------------------------------------------------------
 
@@ -55,40 +56,42 @@ INSERT INTO `album` (`albumid`, `namaalbum`, `deskripsi`, `tanggaldibuat`, `user
 --
 
 CREATE TABLE `foto` (
-  `fotoid` int NOT NULL,
-  `judulfoto` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `deskripsifoto` text COLLATE utf8mb4_general_ci NOT NULL,
+  `fotoid` int(11) NOT NULL,
+  `judulfoto` varchar(255) NOT NULL,
+  `deskripsifoto` text NOT NULL,
   `tanggalunggah` date NOT NULL,
-  `lokasifile` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `albumid` int NOT NULL,
-  `userid` int NOT NULL
+  `lokasifile` varchar(255) NOT NULL,
+  `albumid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `jumlahlike` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `foto`
 --
 
-INSERT INTO `foto` (`fotoid`, `judulfoto`, `deskripsifoto`, `tanggalunggah`, `lokasifile`, `albumid`, `userid`) VALUES
-(8, 'harimau putih', 'harimau yang langka', '2024-01-29', '738981920_pexels-james-lee-4661795.jpg', 7, 3),
-(12, 'tupai', 'tupai yang membawa kacang dimulutnya', '2024-01-31', '1370292093_pexels-skyler-ewing-5627781.jpg', 7, 3),
-(13, 'mobil classic', 'mobil tua berwarna putih', '2024-01-31', '428679827_pexels-harry-cunningham-harrydigital-3508085.jpg', 6, 2),
-(15, 'pesepeda', 'seorang pesepeda ', '2024-02-07', '1218665146_pexels-run-ffwpu-5735745.jpg', 6, 2),
-(20, 'Sungai ', 'Sungai yang dikelilingi poho pinus', '2024-02-07', '1812914893_pexels-eberhard-grossgasteiger-629162.jpg', 25, 1),
-(21, 'dedaunan', 'daun daun ', '2024-02-08', '140843088_pexels-emma-pollard-1534925.jpg', 6, 2),
-(25, 'kupu kupu', 'kupu kupu yang mendekati bunga', '2024-02-09', '790345276_pexels-pixabay-87452.jpg', 25, 1),
-(32, 'kota dubai', 'kota dubai di malam hari', '2024-02-20', '884947741_pexels-james-wheeler-1519088.jpg', 31, 4),
-(33, 'bunga matahari', 'bunga  matahari di pagi hari', '2024-02-20', '1273614168_pexels-pixabay-33044.jpg', 31, 4),
-(35, 'citylight', 'kota di malam hari', '2024-02-20', '1449956907_pexels-maxime-francis-2246476.jpg', 31, 4),
-(38, 'kucing', 'kucing di dahan kayu', '2024-02-20', '1599898805_pexels-pixabay-35888.jpg', 53, 6),
-(42, 'astronout', 'astronout diluar angkasa', '2024-02-21', '1939431125_pexels-pixabay-2156.jpg', 6, 2),
-(43, 'padang rumput', 'hamparan padang rumput yang luas', '2024-02-21', '1392991182_pexels-anton-atanasov-391831.jpg', 25, 1),
-(44, 'pegunungan', 'pegunungan dengan pemukiman dibawahnya', '2024-02-21', '375193859_pexels-felix-mittermeier-2832026.jpg', 25, 1),
-(45, 'gunung everest', 'gunung tertinggi di dunia', '2024-02-21', '145574884_pexels-tyler-lastovich-772803.jpg', 25, 1),
-(46, 'air terjun', 'air terjun yang indah', '2024-02-21', '1516617529_pexels-pixabay-237321.jpg', 6, 2),
-(48, 'gajah', 'gajah di hutan', '2024-02-21', '466372879_pexels-pixabay-247431.jpg', 6, 2),
-(50, 'bintang bintang', 'bintang di langit ', '2024-02-28', '93518863_pexels-pixabay-355465.jpg', 56, 4),
-(51, 'burung ', 'burung berkicau', '2024-03-02', '916642454_pexels-jean-van-der-meulen-1526410.jpg', 6, 2),
-(52, 'pantai', 'pantai dari atas', '2024-03-05', '1256423289_pexels-pok-rie-697313.jpg', 53, 6);
+INSERT INTO `foto` (`fotoid`, `judulfoto`, `deskripsifoto`, `tanggalunggah`, `lokasifile`, `albumid`, `userid`, `jumlahlike`) VALUES
+(8, 'harimau putih', 'harimau yang langka', '2024-01-29', '738981920_pexels-james-lee-4661795.jpg', 7, 3, 0),
+(12, 'tupai', 'tupai yang membawa kacang dimulutnya', '2024-01-31', '1370292093_pexels-skyler-ewing-5627781.jpg', 7, 3, 0),
+(13, 'mobil classic', 'mobil tua berwarna putih', '2024-01-31', '428679827_pexels-harry-cunningham-harrydigital-3508085.jpg', 6, 2, 0),
+(15, 'pesepeda', 'seorang pesepeda ', '2024-02-07', '1218665146_pexels-run-ffwpu-5735745.jpg', 6, 2, 0),
+(20, 'Sungai ', 'Sungai yang dikelilingi poho pinus', '2024-02-07', '1812914893_pexels-eberhard-grossgasteiger-629162.jpg', 25, 1, 0),
+(21, 'dedaunan', 'daun daun ', '2024-02-08', '140843088_pexels-emma-pollard-1534925.jpg', 6, 2, 0),
+(25, 'kupu kupu', 'kupu kupu yang mendekati bunga', '2024-02-09', '790345276_pexels-pixabay-87452.jpg', 25, 1, 0),
+(32, 'kota dubai', 'kota dubai di malam hari', '2024-02-20', '884947741_pexels-james-wheeler-1519088.jpg', 31, 4, 0),
+(33, 'bunga matahari', 'bunga  matahari di pagi hari', '2024-02-20', '1273614168_pexels-pixabay-33044.jpg', 31, 4, 0),
+(35, 'citylight', 'kota di malam hari', '2024-02-20', '1449956907_pexels-maxime-francis-2246476.jpg', 31, 4, 0),
+(38, 'kucing', 'kucing di dahan kayu', '2024-02-20', '1599898805_pexels-pixabay-35888.jpg', 53, 6, 0),
+(42, 'astronout', 'astronout diluar angkasa', '2024-02-21', '1939431125_pexels-pixabay-2156.jpg', 6, 2, 0),
+(43, 'padang rumput', 'hamparan padang rumput yang luas', '2024-02-21', '1392991182_pexels-anton-atanasov-391831.jpg', 25, 1, 0),
+(44, 'pegunungan', 'pegunungan dengan pemukiman dibawahnya', '2024-02-21', '375193859_pexels-felix-mittermeier-2832026.jpg', 25, 1, 0),
+(45, 'gunung everest', 'gunung tertinggi di dunia', '2024-02-21', '145574884_pexels-tyler-lastovich-772803.jpg', 25, 1, 0),
+(46, 'air terjun', 'air terjun yang indah', '2024-02-21', '1516617529_pexels-pixabay-237321.jpg', 6, 2, 0),
+(48, 'gajah', 'gajah di hutan', '2024-02-21', '466372879_pexels-pixabay-247431.jpg', 6, 2, 0),
+(50, 'bintang bintang', 'bintang di langit ', '2024-02-28', '93518863_pexels-pixabay-355465.jpg', 56, 4, 0),
+(51, 'burung ', 'burung berkicau', '2024-03-02', '916642454_pexels-jean-van-der-meulen-1526410.jpg', 6, 2, 0),
+(52, 'pantai', 'pantai dari atas', '2024-03-05', '1256423289_pexels-pok-rie-697313.jpg', 53, 6, 0),
+(59, 'dinding', 'warna putih', '2024-03-06', '490740071_360_F_396093486_sn3s1ByXbhz3UkuI3RV5qkwpZWFpZdMI.jpg', 6, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -97,10 +100,10 @@ INSERT INTO `foto` (`fotoid`, `judulfoto`, `deskripsifoto`, `tanggalunggah`, `lo
 --
 
 CREATE TABLE `komentarfoto` (
-  `komentarid` int NOT NULL,
-  `fotoid` int NOT NULL,
-  `userid` int NOT NULL,
-  `isikomentar` text COLLATE utf8mb4_general_ci NOT NULL,
+  `komentarid` int(11) NOT NULL,
+  `fotoid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `isikomentar` text NOT NULL,
   `tanggalkomentar` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -115,7 +118,6 @@ INSERT INTO `komentarfoto` (`komentarid`, `fotoid`, `userid`, `isikomentar`, `ta
 (28, 13, 2, 'kece bang', '2024-02-09'),
 (31, 13, 4, 'keren', '2024-02-12'),
 (41, 25, 1, 'keren', '2024-02-19'),
-(45, 12, 2, 'keren', '2024-02-28'),
 (46, 20, 4, 'romadon', '2024-02-28'),
 (47, 35, 4, 'kurang bagus poto nya', '2024-02-28'),
 (48, 15, 2, 'mantap yoo', '2024-03-02'),
@@ -126,7 +128,8 @@ INSERT INTO `komentarfoto` (`komentarid`, `fotoid`, `userid`, `isikomentar`, `ta
 (64, 42, 6, 'mantap', '2024-03-05'),
 (65, 42, 7, 'mantap', '2024-03-05'),
 (66, 42, 1, 'well', '2024-03-05'),
-(67, 42, 2, 'mantap', '2024-03-05');
+(67, 42, 2, 'mantap', '2024-03-05'),
+(69, 12, 2, 'tupainya lucu', '2024-03-06');
 
 -- --------------------------------------------------------
 
@@ -135,9 +138,9 @@ INSERT INTO `komentarfoto` (`komentarid`, `fotoid`, `userid`, `isikomentar`, `ta
 --
 
 CREATE TABLE `likefoto` (
-  `likeid` int NOT NULL,
-  `fotoid` int NOT NULL,
-  `userid` int NOT NULL,
+  `likeid` int(11) NOT NULL,
+  `fotoid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
   `tanggallike` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -179,10 +182,11 @@ INSERT INTO `likefoto` (`likeid`, `fotoid`, `userid`, `tanggallike`) VALUES
 (242, 52, 2, '2024-03-05'),
 (245, 52, 7, '2024-03-05'),
 (246, 51, 7, '2024-03-05'),
-(248, 52, 1, '2024-03-05'),
-(249, 51, 1, '2024-03-05'),
 (250, 46, 1, '2024-03-05'),
-(251, 50, 2, '2024-03-05');
+(255, 32, 6, '2024-03-06'),
+(256, 48, 6, '2024-03-06'),
+(257, 33, 6, '2024-03-06'),
+(265, 59, 1, '2024-03-06');
 
 -- --------------------------------------------------------
 
@@ -191,9 +195,9 @@ INSERT INTO `likefoto` (`likeid`, `fotoid`, `userid`, `tanggallike`) VALUES
 --
 
 CREATE TABLE `reset_password` (
-  `id` int NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `reset_code` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `reset_code` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -202,7 +206,7 @@ CREATE TABLE `reset_password` (
 
 INSERT INTO `reset_password` (`id`, `email`, `reset_code`) VALUES
 (1, 'ryanyanuar184@gmail.com', '960485'),
-(2, 'abdoelfathir708@gmail.com', '795009');
+(2, 'abdoelfathir708@gmail.com', '027134');
 
 -- --------------------------------------------------------
 
@@ -211,14 +215,14 @@ INSERT INTO `reset_password` (`id`, `email`, `reset_code`) VALUES
 --
 
 CREATE TABLE `user` (
-  `userid` int NOT NULL,
-  `username` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `namalengkap` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `alamat` text COLLATE utf8mb4_general_ci NOT NULL,
-  `role` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'user',
-  `profile_photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `userid` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `namalengkap` varchar(255) NOT NULL,
+  `alamat` text NOT NULL,
+  `role` varchar(20) NOT NULL DEFAULT 'user',
+  `profile_photo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -227,10 +231,10 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`userid`, `username`, `password`, `email`, `namalengkap`, `alamat`, `role`, `profile_photo`) VALUES
 (1, 'admin', 'adminpassword', 'admin@gmail.com', 'Admin User', 'adminadress', 'admin', 'gambar/3135715.png'),
-(2, 'fathir', '1234', 'abdoelfathir708@gmail.com', 'fathir', 'banjar', 'user', 'gambar/6f2d3eee-961b-40e3-8a01-35eff3f5ea2e.jpg'),
+(2, 'fathir', '123', 'abdoelfathir708@gmail.com', 'fathir', 'banjar', 'user', 'gambar/6f2d3eee-961b-40e3-8a01-35eff3f5ea2e.jpg'),
 (3, 'ryn', '1234567890', 'ryanyanuar184@gmail.com', 'Ryan Yanuar Pradana', 'Jepun', 'user', 'gambar/WhatsApp Image 2024-03-05 at 09.27.38.jpeg'),
 (4, 'dimas', '456', 'dadidimas6@gmail.com', 'dimas nur', 'cikabu', 'user', 'gambar/WhatsApp Image 2024-03-05 at 09.25.11.jpeg'),
-(6, 'rendi', '123', 'rendi@gmail.com', 'rendi', 'bandung', 'user', 'gambar/RENDI RAIHANRAI.jpg'),
+(6, 'rendi', '123', 'raihanrairendi@gmail.com', 'rendi', 'bandung', 'user', 'gambar/RENDI RAIHANRAI.jpg'),
 (7, 'ahmad', '123', 'ahmadnurfdllh0306@gmail.com', 'ahmad', 'sukarame', 'user', 'gambar/WhatsApp Image 2024-03-05 at 09.38.10.jpeg');
 
 --
@@ -288,37 +292,37 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `album`
 --
 ALTER TABLE `album`
-  MODIFY `albumid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `albumid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `foto`
 --
 ALTER TABLE `foto`
-  MODIFY `fotoid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `fotoid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `komentarfoto`
 --
 ALTER TABLE `komentarfoto`
-  MODIFY `komentarid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `komentarid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `likefoto`
 --
 ALTER TABLE `likefoto`
-  MODIFY `likeid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
+  MODIFY `likeid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
 
 --
 -- AUTO_INCREMENT for table `reset_password`
 --
 ALTER TABLE `reset_password`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
