@@ -13,9 +13,9 @@
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100">
     <div class="flex items-center justify-center h-screen">
-        <div class="w-full max-w-md">
+        <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
             <h1 class="text-4xl font-bold text-center mb-8">Halaman Login</h1>
             <form action="proses_login.php" method="post">
                 <div class="mb-4">

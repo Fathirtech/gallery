@@ -44,9 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 
-<body>
-    <div class="flex items-center justify-center h-screen">
-        <div class="w-full max-w-md">
+<body class="bg-gray-100">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="w-full max-w-md bg-white shadow-md rounded px-8 py-8">
             <h1 class="text-4xl font-bold text-center mb-8">Reset Password</h1>
             <form action="" method="post">
                 <input type="hidden" name="email" value="<?= $_GET['email'] ?>">
@@ -56,10 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         required>
                 </div>
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex flex-col md:flex-row items-center justify-between mb-4">
                     <button type="submit" name="submit"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
-                    <a href="login.php" class="text-blue-500 hover:underline">Back to Login</a>
+                        class="w-full md:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2 md:mb-0">Submit</button>
+                    <a href="login.php" class="text-blue-500 hover:underline text-center md:text-right">Back to
+                        Login</a>
                 </div>
             </form>
         </div>

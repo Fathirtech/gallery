@@ -112,8 +112,7 @@ $total_photos = isset($_SESSION['userid']) ? countUserUploadedPhotos($conn, $_SE
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
-    <div class="bg-white p-4">
-        <ul class="flex justify-end">
+<ul class="flex justify-end">
             <?php
             // Check user role to determine the redirection link
             if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
@@ -127,6 +126,7 @@ $total_photos = isset($_SESSION['userid']) ? countUserUploadedPhotos($conn, $_SE
             }
             ?>
         </ul>
+    <div class="bg-white p-4">
         <h1 class="text-3xl text-center text-gray-800">Profil Pengguna</h1>
         <?php if (isset($_SESSION['namalengkap'])): ?>
             <p class="text-center mt-2">Selamat datang <b><?= $_SESSION['namalengkap'] ?></b></p>

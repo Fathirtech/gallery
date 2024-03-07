@@ -140,10 +140,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <div class="flex items-center justify-center h-screen">
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
         <div class="w-full max-w-md">
             <h1 class="text-4xl font-bold text-center mb-8">Reset Password</h1>
-            <form action="" method="post">
+            <form action="" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div class="mb-4">
                     <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
                     <input type="email" name="email" id="email"
@@ -161,3 +161,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+

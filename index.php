@@ -79,9 +79,9 @@ $user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) 
     </style>
 </head>
 
-<body class="font-sans bg-gray-100">
+<body class="font-sans bg-gray-100" >
+<?php include 'navbar.php'; ?>
     <div class="bg-white p-4">
-        <?php include 'navbar.php'; ?>
         <h1 class="text-3xl text-center text-gray-800">Selamat Datang di MY Gallery</h1>
         <?php if(isset($_SESSION['userid'])): ?>
         <p class="text-center mt-4">Selamat datang <b><?= $_SESSION['namalengkap'] ?></b></p>
