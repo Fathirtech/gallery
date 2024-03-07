@@ -27,8 +27,8 @@ $user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) 
 </head>
 
 <body class="font-sans bg-gray-100">
+<?php include 'adminnavbar.php'; ?>
     <div class="bg-white p-4">
-        <?php include 'adminnavbar.php'; ?>
         <h1 class="text-3xl text-center text-gray-800">Halaman Album</h1>
         <p class="text-center mt-2">Selamat datang <b>
                 <?= $_SESSION['namalengkap'] ?>
