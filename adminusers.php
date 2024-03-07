@@ -25,7 +25,6 @@ $user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) 
 </head>
 
 <body class="font-sans bg-gray-100">
-    <div class="bg-white p-4">
             <?php
             // Check user role to determine the redirection link
             if ($_SESSION['role'] === 'admin') {
@@ -40,7 +39,7 @@ $user = isset($_SESSION['userid']) ? getUserProfile($conn, $_SESSION['userid']) 
                 <?php
             }
             ?>
-        </ul>
+             <div class="bg-white p-4">
         <h1 class="text-3xl text-center text-gray-800">Halaman User</h1>
         <p class="text-center mt-2">Selamat datang <b><?= $_SESSION['namalengkap'] ?></b></p>
     </div>
